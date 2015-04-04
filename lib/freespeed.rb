@@ -11,7 +11,7 @@ module Freespeed
   # * +initialize+ which expects two parameters and one block as
   #   described below. 
   #
-  # * +modified?+ which returns a boolean if there were updates in
+  # * +updated?+ which returns a boolean if there were updates in
   #   the filesystem or not.
   #
   # * +start_file_notifier+ which just start the file notifier on thread.
