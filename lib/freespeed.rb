@@ -82,7 +82,7 @@ module Freespeed
     def check_status
     
     	@events_captured.each do |event|
-    		if @files_hash[event.to_s] && @last_mtime < File.mtime(event.to_s)
+    		if @files_hash[event.to_s] && ( !File.exists?(event.to_s) || @last_mtime < File.mtime(event.to_s))
     			@modified = true
     			stop_file_notifier
     			@events_captured = []
@@ -117,14 +117,18 @@ module Freespeed
       @modified
     end
 
+    def execute
+    	@block.call
+    	@last_mtime = Time.now
+        @modified = false
+    end
+
     # This method executes the block and return 'true' if file system is updated else false.
     def execute_if_updated
       #check_status
       #puts updated?
       if updated?
-        @block.call
-        @last_mtime = Time.now
-        @modified = false
+       	execute
         start_file_notifier
         true
       else

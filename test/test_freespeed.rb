@@ -38,14 +38,14 @@ class EventedMonitorChecker < Test::Unit::TestCase
     assert_equal 1, i
   end
 
-  # def test_should_be_robust_enough_to_handle_deleted_files
-  #   i = 0
-  #   checker = Freespeed::EventedMonitorChecker.new(FILES){ i += 1 }
-  #   FileUtils.rm(FILES)
-  #   sleep 5
-  #   assert checker.execute_if_updated
-  #   assert_equal 1, i
-  # end
+  def test_should_be_robust_enough_to_handle_deleted_files
+    i = 0
+    checker = Freespeed::EventedMonitorChecker.new(FILES){ i += 1 }
+    FileUtils.rm(FILES)
+    sleep 5
+    assert checker.execute_if_updated
+    assert_equal 1, i
+  end
 
   # def test_should_be_robust_to_handle_files_with_wrong_modified_time
   #   i = 0
@@ -62,25 +62,23 @@ class EventedMonitorChecker < Test::Unit::TestCase
   #   assert_equal 1, i
   # end
 
-  # def test_should_cache_updated_result_until_execute
-  #   i = 0
-  #   checker = ActiveSupport::FileUpdateChecker.new(FILES){ i += 1 }
-  #   assert !checker.updated?
+  def test_should_cache_updated_result_until_execute
+    i = 0
+    checker = Freespeed::EventedMonitorChecker.new(FILES){ i += 1 }
+    assert !checker.updated?
 
-  #   sleep(1)
-  #   FileUtils.touch(FILES)
-
-  #   assert checker.updated?
-  #   checker.execute
-  #   assert !checker.updated?
-  # end
+    sleep(1)
+    FileUtils.touch(FILES)
+    sleep 1
+    assert checker.updated?
+    checker.execute
+    assert !checker.updated?
+  end
 
   # def test_should_invoke_the_block_if_a_watched_dir_changed_its_glob
   #   i = 0
-  #   checker = ActiveSupport::FileUpdateChecker.new([], "tmp_watcher" => [:txt]){ i += 1 }
-  #   FileUtils.cd "tmp_watcher" do
-  #     FileUtils.touch(FILES)
-  #   end
+  #   checker = Freespeed::EventedMonitorChecker.new([], "freespeed" => [:txt]){ i += 1 }
+  #   FileUtils.touch(FILES)
   #   assert checker.execute_if_updated
   #   assert_equal 1, i
   # end
