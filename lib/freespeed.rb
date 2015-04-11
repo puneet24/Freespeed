@@ -79,8 +79,9 @@ module Freespeed
       start_file_notifier
     end
 
+    # this method is to check updations in any of the watched file.
     def check_status
-    
+    	# @files_hash contains key as files to be watched and value as true.
     	@events_captured.each do |event|
     		if @files_hash[event.to_s] && ( !File.exists?(event.to_s) || @last_mtime < File.mtime(event.to_s))
     			@modified = true
