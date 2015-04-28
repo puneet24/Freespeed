@@ -22,6 +22,9 @@ Or install it yourself as:
 
  
 It can be used :-
+1. File system integrity checking
+2. Duplicate file finding 
+3. version controlled file system ( can be a small part for checking when the file was modified) 
 
 
 ## Contributing
